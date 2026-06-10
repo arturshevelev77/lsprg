@@ -83,24 +83,31 @@ func loadOrInitConfig() Config {
 }
 
 func (m model) Init() tea.Cmd {
-	return func() tea.Msg {
-		// ищем пакеты
-		d := "/var/lib/pacman/local"
-		var list []pkg
-		files, err := os.ReadDir(d)
-		if err != nil {
-			return nil
-		}
-		re := regexp.MustCompile("(?i)" + strings.ReplaceAll(m.pat, "*", ".*"))
-		for _, f := range files {
-			if f.IsDir() && re.MatchString(f.Name()) {
-				// пытаемся достать инфу у этих молчащих партизан
-				p := pkg{name: f.Name()}
-				list = append(list, p)
-			}
-		}
-		return list
-	}
+    return func() tea.Msg {
+        d := "/var/lib/pacman/local"
+        var list []pkg
+        files, err := os.ReadDir(d)
+        if err != nil {
+            return nil // Здесь лучше возвращать структуру с ошибкой
+        }
+        
+        re := regexp.MustCompile("(?i)" + strings.ReplaceAll(m.pat, "*", ".*"))
+        
+        for _, f := range files {
+            // ДОБАВЛЯЕМ ПРОВЕРКУ:
+            // 1. Должно быть директорией
+            // 2. Имя не должно быть "ALPM_DB_VERSION"
+            if !f.IsDir() || f.Name() == "ALPM_DB_VERSION" {
+                continue 
+            }
+            
+            if re.MatchString(f.Name()) {
+                p := pkg{name: f.Name()}
+                list = append(list, p)
+            }
+        }
+        return list
+    }
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -108,11 +115,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case []pkg:
 		m.pkgs = msg
 		m.load = false
-		return m, nil // остаемся в программе чтобы видеть результат
-	case tea.KeyMsg:
-		if msg.String() == "ctrl+c" {
-			return m, tea.Quit
-		}
+		return m, tea.Quit
 	}
 	return m, nil
 }
