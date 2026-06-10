@@ -32,6 +32,17 @@ go build -o lsprg main.go && ./lsprg
 
 ---
 
+⚙️ Configuration
+
+lsprg looks for your custom settings in ~/.config/lsprg/lsprg.conf.
+You can change the core_point character to match your terminal theme.
+
+```conf
+core_point=◎
+```
+
+---
+
 ## ⚙️ Architecture: lsprg vs Old-school CLI
 
 Most classic utilities (like `cbonsai`) are written in **C** using **ncurses** — a library from 1993.
