@@ -1,81 +1,24 @@
-# 📦 lsprg
+# 📦 LsPrg
 
-A modern, fast, and beautiful CLI package search utility for Arch Linux. Built on a pure adrenaline vibe, powered by Go and the Charm CLI ecosystem.
+Простая, удобная, настраивоймая программа на go.
 
----
-
-## ✨ Features
-
-* ⚡ **Blazing Fast:** Directly scans `/var/lib/pacman/local/` without spawning slow external `pacman` processes.
-* 🎨 **Modern TUI:** Built using **Bubble Tea** and **Lipgloss** for that sleek, reactive terminal feel.
-* 🔍 **Smart Search:** Supports glob patterns (like `*fetch*`) and automatically filters out version suffixes so your searches never break.
-* 📦 **Repository Heuristics:** Distinguishes between standard packages, AUR, and CachyOS repos.
+Это описание написано в час ночи на телефоне так что на орфографию я забил болт это всё писано чтоб удалить старое кривое неироное описание которое весело сдесь ранее.
 
 ---
 
-## 🛠️ Quick Start
+## Почему она быстрая? (Техническая душнота)
 
-You don't need a heavy setup. Build and run it with a single command:
+Пока стандартные утилиты тупят по 20 миллисекунд, эта штука отрабатывает за **5 миллисекунд**. Секрет простой:
+* Код написан на **Go**. Он компилируется в чистый бинарник и не тратит время на запуск тяжелых интерпретаторов.
+* Программа напрямую парсит файлы из `/var/lib/pacman/local/`. Никаких медленных вызовов оригинального `pacman` через систему. Прямой доступ к данным — и всё летает.
+* Интерфейс построен на базе **Bubble Tea** и **Lipgloss** (The Elm Architecture). Поиск крутится в асинхронном потоке, так что терминал никогда не фризит.
+
+---
+
+## Как запустить эту дичь (monula)
+
+Сборка и запуск одной командой:
 
 ```bash
-go build -o lsprg main.go && ./lsprg
-
-```
-
-### Usage
-
-```bash
-./lsprg <search_pattern>
-# Example: ./lsprg fetch
-
-```
-
----
-
-⚙️ Configuration
-
-lsprg looks for your custom settings in ~/.config/lsprg/lsprg.conf.
-You can change the core_point character to match your terminal theme.
-
-```conf
-core_point=◎
-```
-
----
-
-## ⚙️ Architecture: lsprg vs Old-school CLI
-
-Most classic utilities (like `cbonsai`) are written in **C** using **ncurses** — a library from 1993.
-
-`lsprg` takes a modern approach:
-
-* **The Elm Architecture (TEA):** Predictable state management via Bubble Tea (`Init`, `Update`, `View`).
-* **Asynchronous Engine:** Search tasks run safely in the background using `tea.Cmd` without freezing the terminal.
-* **Declarative Styling:** Beautiful layouts and colors handled easily via Lipgloss.
-
----
-
-## 🎸 Development Vibe & Philosophy
-
-This project was hard-coded in a dark room under the heavy sounds of Siberian punk rock.
-
-```text
-Быть плоохим примером гараздо виселее...
-Мама я люблю LINUX
-Мама я ДРОЧУ на LINUX
-Мама я пользуюсь VIMMMMM
-МАМ-А Я ЛЮБЛ-Ю LINUX
-А всё потому что я-я Крут
-
-```
-
----
-
-## 🤝 Contributed by
-
-* **arturshevelev77** (*noob-in-coding* but coding on a pure vibe)
-
-
-Закидывай в репозиторий! Как батя вернёт зарядник — расчехляй `vhs` или пиши экран, вставляй GIF-ку сразу под заголовком, и проект будет оформлен по всем канонам высшей лиги.
-
+git clone https://github.com/arturshevelev_77/lsprg && go build -o lsprg main.go && ./lsprg
 ```
